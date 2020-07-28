@@ -8,11 +8,19 @@ require('dotenv').config();
 const app = express();
 
 
+//Import Routes
+const otpRoutes = require('./routes/auth')
+
 //Middleware
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
+
+
+//Use routes as middleware
+app.use('/api', otpRoutes);
+
 
 //DB Server Connection
 mongoose.connect(process.env.DATABASE, {
@@ -26,5 +34,6 @@ mongoose.connect(process.env.DATABASE, {
         console.log(err);
     });
 
+// Listening Port
 const Port = process.env.PORT || 8000;
 app.listen(Port, () => console.log(`Listening on port ${Port}`))
